@@ -30,18 +30,30 @@ class MainActivity : ComponentActivity() {
 
                         // Explicit Intent
 
-//                        Intent(applicationContext, SecondActivity::class.java).also {
-//                            startActivity(it)
+//                     Intent(applicationContext, SecondActivity::class.java).also {
+//                         it.putExtra("mytext", "This is my custom text")
+//                         it.putExtra(Intent.EXTRA_TEXT, "This is the content of my email")
+//                                startActivity(it)
 //                        }
-                        Intent(Intent.ACTION_MAIN).also {
-                            it.`package` = "com.google.android.youtube"
-                            try {
-                                startActivity(it)
-                            } catch (e: ActivityNotFoundException){
-                                e.printStackTrace()
-                            }
-                        }
+//                        Intent(Intent.ACTION_MAIN).also {
+//                            it.`package` = "com.google.android.youtube"
+//                            try {
+//                                startActivity(it)
+//                            } catch (e: ActivityNotFoundException){
+//                                e.printStackTrace()
+//                            }
+//                        }
 
+                        // Implicit Intent
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("test@test.com"))
+                            putExtra(Intent.EXTRA_SUBJECT, "This is my subject")
+                            putExtra(Intent.EXTRA_TEXT, "This is the content of my email")
+                        }
+                        if (intent.resolveActivity(packageManager) != null ){
+                            startActivity(intent)
+                        }
 
                     }) {
                         Text(text = "Click me")
